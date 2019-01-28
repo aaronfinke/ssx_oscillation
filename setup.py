@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-import h5py
-import os
-import sys
+import h5py, os, sys
+from contextlib import contextmanager
 from pathlib import Path
+
 
 def is_valid_h5_file(path):
     """
@@ -46,15 +46,46 @@ def getNumberOfFilesToProcess(path,num=None):
     else:
         return num
 
+def getNumberOfDataWells(masterfile,oscillation,framesperdegree):
+    """returns the number of data wells in the master file."""
+    filenum = getNumberOfFiles_fast(masterfile)
+    frames = framesperdegree / oscillation
+    return int(filenum / frames)
+
+
 def getMasterPrefix(arg):
-    stripped = Path(arg.strip('_master.h5'))
-    head, tail = os.path.split(stripped)
-    return tail
+    """"Returns the name of the master file without the "_master.h5"
+    suffix.
+    """
+    if arg.endswith('_master.h5'):
+        stripped = arg.replace('_master.h5','')
+        head, tail = os.path.split(stripped)
+        return tail
+    else:
+        return
 
 def setupMasterDirectory(input, dir):
+    "Creates a master directory."
     master = getMasterPrefix(input)
-    os.mkdir(os.path.join(dir,master))
+    masterdir = os.path.join(dir,master)
+    os.mkdir(masterdir)
+
+def setupMasterDirectories(argslist):
+    """Sets up the master directories into which data sets
+    will be processed. Input is parsed arguments.
+    """
+    for master in argslist.input:
+        masterdir = setupMasterDirectory(master,argslist.output)
+
+def getMasterDirectoryPaths(argslist):
+    """Returns paths of master directories. Input is parsed arguments.
+    """
+    masterlist = []
+    for masterfile in argslist.input:
+        master = getMasterPrefix(masterfile)
+        masterdir = os.path.join(argslist.output, master)
+        masterlist.append(masterdir)
+    return masterlist
 
 def setup(argslist):
-    for master in argslist.input:
-        setupMasterDirectory(master,argslist.output)
+    setupMasterDirectories(argslist)
