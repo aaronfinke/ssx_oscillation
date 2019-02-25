@@ -2,6 +2,7 @@ import os, sys, h5py
 from argparse import ArgumentParser
 from make_xds_template import *
 import setup
+import Master
 
 
 def main():
@@ -42,7 +43,8 @@ def main():
 
     argslist = parser.parse_args()
 
-    
+    master1= Master(argslist,argslist.input)
+    print(master1)
 
 if __name__ == '__main__':
     main()

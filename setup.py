@@ -7,7 +7,7 @@ from pathlib import Path
 
 def is_valid_h5_file(path):
     """
-    Checks to ensure that the file path(s) is/are hdf5 files
+    Checks to ensure that the file path is a valid hdf5 file
     """
     try:
         file = h5py.File(path, 'r')
