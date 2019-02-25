@@ -68,7 +68,14 @@ def setupMasterDirectory(input, dir):
     "Creates a master directory."
     master = getMasterPrefix(input)
     masterdir = os.path.join(dir,master)
-    os.mkdir(masterdir)
+    try:
+        os.mkdir(masterdir)
+    except FileExistsError:
+        pass
+
+def getMasterDirectory(input,dir):
+    master = getMasterPrefix(input)
+    return os.path.join(dir,master)
 
 def setupMasterDirectories(argslist):
     """Sets up the master directories into which data sets

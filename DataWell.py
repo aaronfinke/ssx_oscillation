@@ -2,13 +2,13 @@
 
 class DataWell:
 
-	def __init__(self,path,frames):
+	def __init__(self,path,firstframe,numframes):
 		self.path = path
-		self.frames = frames
+		self.firstframe = frames
+		self.lastframe = frames + numframes - 1
+
 		self.isIndexed = False
 
 
 	def framesIndexed(self):
 		self.isIndexed = True
-
-

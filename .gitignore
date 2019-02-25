@@ -1,3 +1,4 @@
 # .gitignore
 __pycache__
 CAP.sh
+sample_EIGER_data

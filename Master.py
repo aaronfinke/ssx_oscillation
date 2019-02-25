@@ -15,11 +15,21 @@ class Master(object):
         self.spacegroup = argslist.spacegroup
         self.unitcell = argslist.unitcell
 
-        setupMasterDirectory(self.output,self.masterfile)
+        setup.setupMasterDirectory(self.masterfile, self.output)
 
-        self.numberoffiles = getNumberOfFilesToProcess(self.masterfile)
-        self.numberofdatawells = getNumberOfDataWells(self.masterfile, self.oscillation,self.framesperdegree)
+        self.masterdirectory = getMasterdirectory(self.masterfile, self.output)
+
+        self.numberoffiles = setup.getNumberOfFilesToProcess(self.masterfile)
+        self.numberofdatawells = setup.getNumberOfDataWells(self.masterfile, self.oscillation,self.framesperdegree)
+
+
 
 
     def __str__(self):
         return "{a} and {b}".format(a=numberoffiles,b=numberofdatawells)
+
+    def printDataWells(self):
+        numOfFiles=setup.getNumberOfFilesToProcess(self.masterfile)
+        filesperwell = int(self.framesperdegree*self.oscillation)
+        for filenum in range(1,numOfFiles,filesperwell):
+            print("{a} - {b}".format(a=filenum,b=filenum + filesperwell - 1))

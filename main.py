@@ -2,7 +2,7 @@ import os, sys, h5py
 from argparse import ArgumentParser
 from make_xds_template import *
 import setup
-import Master
+from Master import Master
 
 
 def main():
@@ -42,9 +42,9 @@ def main():
     help="unit cell")
 
     argslist = parser.parse_args()
-
-    master1= Master(argslist,argslist.input)
-    print(master1)
+    for masterfile in argslist.input:
+        master1= Master(argslist,masterfile)
+        master1.printDataWells()
 
 if __name__ == '__main__':
     main()
