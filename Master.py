@@ -33,3 +33,8 @@ class Master(object):
         filesperwell = int(self.framesperdegree*self.oscillation)
         for filenum in range(1,numOfFiles,filesperwell):
             print("{a} - {b}".format(a=filenum,b=filenum + filesperwell - 1))
+
+    def setupDataWells(self):
+
+
+        
